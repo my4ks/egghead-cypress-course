@@ -1,11 +1,11 @@
 describe('List Item Behavior', () => {
   it('Deletes an item', () => {
-    cy.server()
     cy
-      .route({
+      .intercept({
         method: 'DELETE',
         url: '/api/todos/*',
-        response: {}
+      }, {
+        body: {}
       })
       .as('delete')
 
@@ -26,12 +26,11 @@ describe('List Item Behavior', () => {
   })
 
   it('Marks an item complete', () => {
-    cy.server()
     cy.seedAndVisit()
     cy.fixture('todos').then(todos => {
       const target = todos[0]
       cy
-        .route(
+        .intercept(
           'PUT',
           `/api/todos/${target.id}`,
           Cypress._.merge(target, { isComplete: true })

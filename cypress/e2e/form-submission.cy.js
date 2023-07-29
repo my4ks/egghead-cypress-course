@@ -1,12 +1,12 @@
 describe('Form submission', () => {
   it('Adds a new todo item', () => {
     const newTodo = 'Buy Milk'
-    cy.server()
     cy
-      .route({
+      .intercept({
         method: 'POST',
         url: '/api/todos',
-        response: { id: 123, name: newTodo, isComplete: false }
+      }, {
+        body: { id: 123, name: newTodo, isComplete: false },
       })
       .as('save')
 
@@ -24,13 +24,13 @@ describe('Form submission', () => {
 
   it('Shows an error message for a failed form submission', () => {
     const newTodo = 'Test'
-    cy.server()
     cy
-      .route({
+      .intercept({
         method: 'POST',
         url: '/api/todos',
-        status: 500,
-        response: {}
+      }, {
+        statusCode: 500,
+        body: {}
       })
       .as('save')
 

@@ -5,8 +5,7 @@ describe('Smoke Tests', () => {
 
   context('No Todos', () => {
     it('Adds a new todo', () => {
-      cy.server()
-      cy.route('POST', '/api/todos').as('save')
+      cy.intercept('POST', '/api/todos').as('save')
 
       cy.visit('/')
 
@@ -27,8 +26,7 @@ describe('Smoke Tests', () => {
         cy.request('POST', '/api/todos/bulkload', { todos })
       })
 
-      cy.server()
-      cy.route('GET', '/api/todos').as('load')
+      cy.intercept('GET', '/api/todos').as('load')
 
       cy.visit('/')
 
@@ -36,7 +34,7 @@ describe('Smoke Tests', () => {
     })
 
     it('Deletes todos', () => {
-      cy.route('DELETE', '/api/todos/*').as('delete')
+      cy.intercept('DELETE', '/api/todos/*').as('delete')
 
       cy
         .get('.todo-list li')

@@ -5,7 +5,7 @@ describe('Footer', () => {
       { link: 'Completed', expectedLength: 2 },
       { link: 'All', expectedLength: 4 }
     ]
-    cy.seedAndVisit('fixture:mixed_todos')
+    cy.seedAndVisit({ fixture: 'mixed_todos' })
 
     cy.wrap(filters).each(filter => {
       cy.contains(filter.link).click()
